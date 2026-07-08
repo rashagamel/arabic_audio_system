@@ -1,0 +1,76 @@
+# ================================================================
+# Arabic Audio System v2 — Configuration
+# ================================================================
+
+asr:
+  # Best model for Arabic + English mixed content
+  model: "openai/whisper-large-v3"
+  # For faster inference on CPU:
+  # model: "openai/whisper-medium"
+  language: null          # null = auto-detect language per segment
+  task: "transcribe"
+  beam_size: 5
+  best_of: 5
+  temperature: 0.0        # 0 = greedy, more deterministic
+  vad_filter: true        # Voice activity detection, removes silence
+  vad_threshold: 0.5
+  word_timestamps: true   # Enable for better chunking
+  chunk_length: 30        # seconds per chunk for long audio
+  use_faster_whisper: true  # Recommended for speed
+
+summarization:
+  # Best working Arabic summarizer
+  model: "csebuetnlp/mT5_multilingual_XLSum"
+  # Arabic-specialized alternative (may need more RAM):
+  # model: "moussaKam/AraBART"
+  max_input_tokens: 512
+  max_new_tokens: 200
+  min_new_tokens: 40
+  num_beams: 4
+  length_penalty: 1.5
+  no_repeat_ngram_size: 4
+  early_stopping: true
+  # Chunking for long texts
+  chunk_words: 350        # words per summarization chunk
+  chunk_overlap_words: 30
+
+embeddings:
+  model: "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+  # Best for Arabic+English mixed:
+  # model: "sentence-transformers/LaBSE"
+  dimension: 768
+  normalize: true
+  batch_size: 16
+
+search:
+  index_type: "IndexFlatIP"
+  top_k: 5
+  # Chunking: sentence-level for better precision
+  chunk_mode: "sentence"      # "sentence" or "fixed_window"
+  min_chunk_chars: 30
+  max_chunk_chars: 400
+  overlap_sentences: 1
+
+youtube:
+  format: "bestaudio/best"
+  audio_format: "wav"
+  sample_rate: 16000
+  max_duration: 7200         # 2 hours max
+
+evaluation:
+  wer_dataset: "mozilla-foundation/common_voice_17_0"
+  wer_config: "ar"
+  rouge_dataset: "csebuetnlp/xlsum"
+  rouge_config: "arabic"
+  search_dataset: "wisam/arcd"
+  max_samples: 50
+
+paths:
+  outputs: "./outputs"
+  index: "./data/faiss_index"
+  cache: "./data/model_cache"
+
+demo:
+  host: "0.0.0.0"
+  port: 7860
+  share: false

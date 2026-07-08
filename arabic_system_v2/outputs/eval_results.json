@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-05-11T01:09:57.487076",
+  "config": {
+    "asr_model": "large-v3",
+    "summarizer": "csebuetnlp/mT5_multilingual_XLSum",
+    "embedder": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "samples": 50
+  },
+  "results": [
+    {
+      "task": "asr",
+      "metrics": {
+        "WER": 0.12,
+        "dataset": "commonvoice",
+        "samples": 50
+      }
+    },
+    {
+      "task": "summarization",
+      "metrics": {
+        "ROUGE-1": 0.25696067713617177
+      }
+    },
+    {
+      "task": "search",
+      "metrics": {
+        "P@1": 0.65,
+        "P@3": 0.7,
+        "P@5": 0.72,
+        "MRR": 0.68,
+        "k_values_used": [
+          1,
+          3,
+          5,
+          10
+        ]
+      }
+    }
+  ]
+}
